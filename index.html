@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Naitik Sharma | Portfolio</title>
+<meta name="description" content="Portfolio of Naitik Sharma: projects, skills and contact details.">
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050b18; --ink: #eef3fb; --muted: #9fb0cc; --accent: #bfe0ff; --warm: #f0d9a8;
+    --font: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --ease: cubic-bezier(.2,.8,.2,1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; background: var(--bg); color: var(--ink);
+    font-family: var(--font); font-size: 1.05rem; line-height: 1.55; overflow-x: hidden;
+  }
+  a { color: var(--accent); text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+
+  /* Liquid colour field behind the glass */
+  .field { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+  .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: .7; animation: drift 24s ease-in-out infinite alternate; }
+  .b1 { width: 46vmax; height: 46vmax; background: #2a63ff; top: -12vmax; left: -10vmax; }
+  .b2 { width: 40vmax; height: 40vmax; background: #6fbfff; top: 15vmax; right: -12vmax; animation-duration: 30s; animation-delay: -8s; }
+  .b3 { width: 34vmax; height: 34vmax; background: #f0cf92; bottom: -16vmax; left: 22vmax; animation-duration: 27s; animation-delay: -15s; opacity: .36; }
+  @keyframes drift {
+    0%   { transform: translate(0,0) scale(1) rotate(0deg); border-radius: 50% 45% 55% 50%; }
+    50%  { transform: translate(6vmax,-4vmax) scale(1.12) rotate(40deg); border-radius: 42% 58% 48% 52%; }
+    100% { transform: translate(-4vmax,5vmax) scale(.95) rotate(-30deg); border-radius: 55% 45% 50% 50%; }
+  }
+
+  /* fine film grain so the glass feels physical, not flat */
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: 2; pointer-events: none; opacity: .07; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  main { position: relative; z-index: 1; max-width: 72rem; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+  .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.1rem; }
+
+  /* Glass tile */
+  .tile {
+    position: relative; overflow: hidden; border-radius: 28px; padding: 1.7rem;
+    background: linear-gradient(135deg, rgba(190,220,255,.17), rgba(190,220,255,.04));
+    -webkit-backdrop-filter: blur(26px) saturate(1.8); backdrop-filter: blur(26px) saturate(1.8);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.4), inset 0 -1px 0 rgba(255,255,255,.06), 0 24px 50px -22px rgba(0,0,0,.7);
+    transition: transform .6s var(--ease), box-shadow .6s var(--ease);
+    animation: enter 1s var(--ease) backwards; animation-delay: calc(var(--i, 0) * 90ms);
+  }
+  .tile::before { /* liquid edge: bright top-left, soft bottom-right */
+    content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
+    background: linear-gradient(140deg, rgba(255,255,255,.7), rgba(255,255,255,.05) 35%, rgba(255,255,255,.05) 65%, rgba(255,255,255,.35));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+  }
+  .tile::after { /* specular light that follows the pointer */
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .5s;
+    background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 0%), rgba(255,255,255,.22), transparent 45%);
+  }
+  .tile:hover { transform: translateY(-6px) scale(1.012); box-shadow: inset 0 1px 0 rgba(255,255,255,.5), inset 0 -1px 0 rgba(255,255,255,.08), 0 34px 60px -22px rgba(0,0,0,.8); }
+  .tile:hover::after { opacity: 1; }
+  .tile > * { position: relative; z-index: 1; }
+  @keyframes enter { from { opacity: 0; transform: translateY(28px) scale(.95); } }
+
+  .hero { grid-column: span 8; grid-row: span 2; display: flex; flex-direction: column; justify-content: center; min-height: 20rem; }
+  .hero h1 { font-size: clamp(2.6rem, 7vw, 5rem); line-height: 1.02; letter-spacing: -.035em; margin: 0 0 1rem; }
+  .hero p { margin: 0 0 1.6rem; max-width: 34rem; font-size: 1.2rem; color: var(--muted); }
+  .id { grid-column: span 4; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 1rem; }
+  .orb {
+    width: 7.5rem; height: 7.5rem; border-radius: 50%; display: grid; place-items: center; font-size: 2.4rem; font-weight: 700; letter-spacing: -.02em;
+    background: radial-gradient(circle at 30% 25%, rgba(255,255,255,.55), rgba(255,255,255,.08) 55%, rgba(111,191,255,.3));
+    box-shadow: inset 0 2px 6px rgba(255,255,255,.6), inset 0 -10px 24px rgba(42,99,255,.4), 0 18px 40px -12px rgba(0,0,0,.6);
+    animation: bob 7s ease-in-out infinite;
+  }
+  @keyframes bob { 50% { transform: translateY(-8px); } }
+  .status { display: inline-flex; align-items: center; gap: .55rem; font-size: .95rem; color: var(--muted); }
+  .dot { width: .6rem; height: .6rem; border-radius: 50%; background: var(--warm); box-shadow: 0 0 0 0 rgba(240,217,168,.6); animation: pulse 2.4s infinite; }
+  @keyframes pulse { 70% { box-shadow: 0 0 0 .7rem rgba(240,217,168,0); } 100% { box-shadow: 0 0 0 0 rgba(240,217,168,0); } }
+
+  .btns { display: flex; flex-wrap: wrap; gap: .75rem; }
+  .btn {
+    display: inline-block; padding: .7rem 1.3rem; border-radius: 999px; font-weight: 500; text-decoration: none; color: var(--ink);
+    background: rgba(255,255,255,.12); box-shadow: inset 0 1px 0 rgba(255,255,255,.4); transition: transform .35s var(--ease), background .35s;
+  }
+  .btn:hover { transform: translateY(-2px); background: rgba(255,255,255,.22); }
+  .btn.solid { background: var(--accent); color: #06122b; font-weight: 700; }
+  .btn.solid:hover { background: #ffffff; }
+
+  h2 { font-size: 1.15rem; margin: 0 0 1rem; color: var(--muted); font-weight: 500; }
+  .proj { grid-column: span 4; display: flex; flex-direction: column; }
+  .proj h3 { font-size: 1.4rem; margin: 0 0 .5rem; letter-spacing: -.01em; }
+  .proj p { margin: 0 0 1rem; color: var(--muted); flex: 1; }
+  .chips { list-style: none; margin: 0 0 1rem; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem; }
+  .chips li { padding: .15rem .7rem; border-radius: 999px; font-size: .88rem; background: rgba(255,255,255,.1); box-shadow: inset 0 1px 0 rgba(255,255,255,.25); }
+  .links a { margin-right: 1.1rem; }
+
+  .skills { grid-column: span 7; }
+  .skills h3 { margin: 1rem 0 .5rem; font-size: 1rem; }
+  .skills h3:first-of-type { margin-top: 0; }
+  .skills .chips { margin: 0; }
+  .journey { grid-column: span 5; }
+  .tl { list-style: none; margin: 0; padding: 0 0 0 1.1rem; border-left: 1px solid rgba(255,255,255,.25); }
+  .tl li { position: relative; padding: 0 0 1.2rem .9rem; }
+  .tl li:last-child { padding-bottom: 0; }
+  .tl li::before { content: ""; position: absolute; left: calc(-1.1rem - 5px); top: .5rem; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+  .tl .when { font-size: .88rem; color: var(--muted); }
+  .tl h3 { margin: 0; font-size: 1.05rem; }
+  .tl p { margin: .2rem 0 0; color: var(--muted); font-size: .98rem; }
+  .certs { grid-column: span 12; }
+  .cert-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(13.5rem, 1fr)); gap: .8rem; }
+  .cert {
+    display: flex; flex-direction: column; gap: .25rem; padding: 1rem 1.1rem; border-radius: 18px; color: var(--ink); text-decoration: none;
+    background: rgba(255,255,255,.07); box-shadow: inset 0 1px 0 rgba(255,255,255,.3);
+    transition: transform .4s var(--ease), background .4s;
+  }
+  a.cert:hover { transform: translateY(-3px); background: rgba(255,255,255,.15); }
+  .cert strong { font-size: 1.02rem; line-height: 1.3; }
+  .cert span { color: var(--muted); font-size: .92rem; }
+  .cert em { font-style: normal; color: var(--accent); font-size: .9rem; margin-top: .3rem; }
+  .contact { grid-column: span 12; display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; justify-content: space-between; }
+  .contact h2 { margin: 0 0 .3rem; }
+  .contact p { margin: 0; font-size: 1.3rem; }
+  footer { position: relative; z-index: 1; text-align: center; color: var(--muted); font-size: .9rem; padding: 0 1rem 2.5rem; }
+
+  @media (max-width: 900px) {
+    .hero, .id, .skills, .journey { grid-column: span 12; grid-row: auto; }
+    .proj { grid-column: span 6; }
+  }
+  @media (max-width: 600px) {
+    .proj { grid-column: span 12; }
+    .tile { padding: 1.4rem; border-radius: 24px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .blob, .orb, .dot, .tile { animation: none; }
+    .tile, .btn { transition: none; }
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .tile { background: rgba(30,36,64,.85); }
+  }
+</style>
+</head>
+<body>
+<div class="field" aria-hidden="true"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+<main><div class="grid" id="app"><noscript>Please enable JavaScript to view this portfolio.</noscript></div></main>
+<footer>&copy; <span id="year"></span> <span id="foot-name"></span></footer>
+
+<script>
+/* ============================================================
+   EDIT YOUR DETAILS HERE. Save the file and refresh the page.
+   ============================================================ */
+const SITE = {
+  name: "Naitik Sharma",
+  role: "[Web Developer]",
+  tagline: "I build website for daily use . Here is some of my work.",
+  status: "Open to opportunities",
+  email: "naitikojat708@gmail.com",
+  resume: "",   // when your resume is uploaded, change to "assets/resume.pdf" to show the button
+  links: [
+    { label: "GitHub",   url: "https://github.com/naitik1805" },
+    { label: "LinkedIn", url: "https://www.linkedin.com/in/naitik-sharma-4710b932b" }
+  ],
+  projects: [
+    { title: "MUSIC LISTENING", desc: "It is online based treding music listening platform", tags: ["HTML", "CSS", "JavaScript"], live: "https://roadwaysdriver.vercel.app/", code: "" },
+    { title: "HABIT TARCKER", desc: "Built an Habit tracker for easy tracking of daily task", tags: ["Tool", "Language"], live: "https://habit-ledger-azure.vercel.app/", code: "#" },
+    { title: "FINRELEIF ", desc: "Finreleif ai powered debt. relief ", tags: ["HTML" ,"CSS", "JavaScript" ], live: "https://habit-ledger-azure.vercel.app/", code: "#" }
+  ],
+  skills: [
+    { group: "Languages", items: ["JavaScript", "Python", "HTML & CSS"] },
+    { group: "Tools",     items: ["Git", "VS Code", "Figma"] },
+    { group: "Strengths", items: ["Problem solving", "Teamwork", "Communication"] }
+  ],
+  journey: [
+    { when: "STUDIES ", title: "STUDENT OF BACHELORS IN TECHNOLOGY", desc: "SCORED 9.15 SGPA IN 4th SEM " },
+    { when: "INTERSHIP", title: "INTERN AT SKILL WALLET AND FUTURE PRIME SKILLS FOR 45 DAYS WITH TRAINING", desc: "LEARNED ABOUT GENERATIVE AI GOOGLE CLOUD" }
+  ],
+  // Put each file in assets/certificates/ and match the file name below (PDF, PNG or JPG all work)
+  certificates: [
+    { title: "Google Cloud Generative AI Internship", issuer: "SmartBridge Educational Services", year: "2026", file: "assets/certificates/certificate-1.pdf" },
+    { title: "Exploratory Data Analysis (Gold)", issuer: "FutureSkills Prime, NASSCOM", year: "2026", file: "assets/certificates/certificate-2.pdf" },
+    { title: "Practical Training on OOPS in C++", issuer: "Anand International College of Engineering", year: "2025", file: "assets/certificates/certificate-3.pdf" },
+    { title: "Anand-ICE Designathon 2026", issuer: "Anand International College of Engineering", year: "2026", file: "assets/certificates/certificate-4.pdf" },
+    { title: "Entry Level Scholarship", issuer: "Anand International College of Engineering", year: "", file: "assets/certificates/certificate-5.pdf" }
+  ]
+};
+/* ============================================================ */
+
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const initials = SITE.name.split(/\s+/).map(w => w[0]).join("").slice(0, 2).toUpperCase();
+let i = 0;
+const idx = () => `style="--i:${i++}"`;
+
+const projects = SITE.projects.map(p => `
+  <article class="tile proj" ${idx()}>
+    <h3>${esc(p.title)}</h3>
+    <p>${esc(p.desc)}</p>
+    <ul class="chips">${p.tags.map(t => `<li>${esc(t)}</li>`).join("")}</ul>
+    <div class="links">${p.live ? `<a href="${esc(p.live)}">Live site</a>` : ""}${p.code ? `<a href="${esc(p.code)}">Source code</a>` : ""}</div>
+  </article>`).join("");
+
+document.getElementById("app").innerHTML = `
+  <section class="tile hero" ${idx()}>
+    <h1>Hi, I'm ${esc(SITE.name.split(" ")[0])}.<br>${esc(SITE.role)}</h1>
+    <p>${esc(SITE.tagline)}</p>
+    <div class="btns"><a class="btn solid" href="#contact">Get in touch</a><a class="btn" href="#work">See my work</a>${SITE.resume ? `<a class="btn" href="${esc(SITE.resume)}" download>Download resume</a>` : ""}</div>
+  </section>
+  <section class="tile id" ${idx()}>
+    <div class="orb" aria-hidden="true">${esc(initials)}</div>
+    <strong>${esc(SITE.name)}</strong>
+    <span class="status"><span class="dot"></span>${esc(SITE.status)}</span>
+  </section>
+  <span id="work"></span>
+  ${projects}
+  <section class="tile skills" ${idx()}>
+    <h2>Skills</h2>
+    ${SITE.skills.map(s => `<h3>${esc(s.group)}</h3><ul class="chips">${s.items.map(t => `<li>${esc(t)}</li>`).join("")}</ul>`).join("")}
+  </section>
+  <section class="tile journey" ${idx()}>
+    <h2>Journey</h2>
+    <ol class="tl">${SITE.journey.map(j => `<li><span class="when">${esc(j.when)}</span><h3>${esc(j.title)}</h3><p>${esc(j.desc)}</p></li>`).join("")}</ol>
+  </section>
+  <section class="tile certs" ${idx()}>
+    <h2>Certificates</h2>
+    <div class="cert-list">${SITE.certificates.map(c => {
+      const inner = `<strong>${esc(c.title)}</strong><span>${esc(c.issuer)}${c.year ? " · " + esc(c.year) : ""}</span>${c.file ? "<em>View certificate</em>" : ""}`;
+      return c.file ? `<a class="cert" href="${esc(c.file)}" target="_blank" rel="noopener">${inner}</a>` : `<div class="cert">${inner}</div>`;
+    }).join("")}</div>
+  </section>
+  <section class="tile contact" id="contact" ${idx()}>
+    <div><h2>Contact</h2><p><a href="mailto:${esc(SITE.email)}">${esc(SITE.email)}</a></p></div>
+    <div class="btns">${SITE.links.map(l => `<a class="btn" href="${esc(l.url)}">${esc(l.label)}</a>`).join("")}</div>
+  </section>`;
+
+document.title = `${SITE.name} | Portfolio`;
+document.getElementById("year").textContent = new Date().getFullYear();
+document.getElementById("foot-name").textContent = SITE.name;
+
+/* Light that follows the pointer across each glass tile */
+document.getElementById("app").addEventListener("pointermove", e => {
+  const t = e.target.closest(".tile");
+  if (!t) return;
+  const r = t.getBoundingClientRect();
+  t.style.setProperty("--mx", (e.clientX - r.left) + "px");
+  t.style.setProperty("--my", (e.clientY - r.top) + "px");
+});
+</script>
+</body>
+</html>
